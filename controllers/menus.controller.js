@@ -1,6 +1,7 @@
 const { catchAsync } = require('../util/catchAsync')
 const { AppError } = require('../util/AppError')
 const { Menu } = require('../models/menus.models')
+const { filterObject } = require('../util/filterObject')
 
 //const menus = [ 
 //    {id: 1, name: "Estofado de pollo", description: "Delicioso pollo a las finas hiervas", price: "3 Us" },
@@ -26,7 +27,7 @@ exports.getMenuById = catchAsync( async (req, res, next) => {
     if(!menu){
         return next (new AppError(404, 'The delivered id was not found'))
     }
-    res.status(201).json({
+    res.status(200).json({
         status: 'Success',
         data:{
             menu
@@ -45,7 +46,10 @@ exports.postMenu = catchAsync( async (req, res, next) => {
         description,
         price
     })
-    res.status(204).json({ status: 'Success' })
+    res.status(201).json({ 
+        status: 'Success',
+        data: { menu }
+     })
     
 
 })
@@ -58,9 +62,18 @@ exports.putMenuById = catchAsync( async (req, res, next) => {
         return next( new AppError(404, 'The delivered id was not found.'))
     }
     if(!name || !description || !price || name.length===0 ||description.length === 0 || price.length === 0){
-        return next( new AppError(400, 'Some properties and/or their are incorrect, please verify it.'))
+        return next( new AppError(400, 'Some properties and/or their values are incorrect.'))
     }
-    res.status(204).json({ status:'Success'})
+    await menu.update({
+        id:+id,
+        name,
+        description,
+        price
+    })
+    res.status(200).json({ 
+        status:'Success',
+        data: 'menu'
+    })
 })
 
 exports.patchMenuById = catchAsync( async (req, res, next) => {
@@ -69,8 +82,17 @@ exports.patchMenuById = catchAsync( async (req, res, next) => {
         if(!menu){
             return next( new AppError(404, 'The delivered id was not found.'))
         }
-        await menu.update({...menu, ...req.body})
-        res.status(204).json({ status:'Success'})
+        const { name, description, price } = req.body
+        if(!name || !description || !price || name.length===0 || description.length===0 || price.length ===0){
+            return next( new AppError(400, 'Some properties and/or their values are incorrect.'))
+        }
+        const data = filterObject(req.body, 'name', 'description', 'price')
+        //await menu.update({...menu, ...req.body})
+        await menu.update({...menu, ...data})
+        res.status(200).json({ 
+            status:'Success',
+            data:{ menu }
+        })
 })
 
 exports.deleteMenuById = catchAsync( async (req, res, next) => {
@@ -84,3 +106,21 @@ exports.deleteMenuById = catchAsync( async (req, res, next) => {
         status:'Success'
     })
 }) 
+
+exports.HardDeletebyId = catchAsync( async (req, res, next) => {
+    const { id } = req.params
+    const menu = await Menu.findOne({where:{id}})
+    if(!menu){
+        return next(new AppError(404, 'The delivered Id was not found.'))
+    }
+    const {menus} = req.body
+    if(menus!=='HArdDEleteById'){
+        return next( new AppError(400, 'The property and keyWord must be #menus# and #allMenusHArdDElete#'))
+    }
+    await menu.destroy()
+    res.status(200).json({
+        status:'Success',
+        message: 'Has been perform a hard-deleted to id `${id}`'
+    })
+    
+})

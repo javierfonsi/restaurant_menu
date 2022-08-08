@@ -17,7 +17,7 @@ const Menu = sequelize.define('menu', {
         allowNull: false,
     },
     price:{
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(10),
         allowNull: false
     },
     status:{
