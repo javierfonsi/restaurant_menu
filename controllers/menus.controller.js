@@ -115,7 +115,7 @@ exports.HardDeletebyId = catchAsync( async (req, res, next) => {
     }
     const {menus} = req.body
     if(menus!=='HArdDEleteById'){
-        return next( new AppError(400, 'The property and keyWord must be #menus# and #allMenusHArdDElete#'))
+        return next( new AppError(400, 'The property and keyWord must be #menus# and #HArdDEleteById#'))
     }
     await menu.destroy()
     res.status(200).json({
