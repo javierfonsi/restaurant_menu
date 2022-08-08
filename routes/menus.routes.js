@@ -11,7 +11,7 @@ const {
     HardDeletebyId
 } = require('../controllers/menus.controller')
 
-//Get all menus
+//menus schema
 /**
  * @swagger
  * components:

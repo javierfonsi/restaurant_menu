@@ -36,7 +36,7 @@ const Employ = sequelize.define('employ', {
     status: {
         type: DataTypes.STRING(10),
         allowNull: false,
-        defaultValue: Unactive
+        defaultValue: 'Unactive'
     }
 })
 
