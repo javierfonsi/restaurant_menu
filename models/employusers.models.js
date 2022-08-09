@@ -1,7 +1,7 @@
-const { DataTypes } = require('sequelize')
 const { sequelize } = require('../util/database')
+const { DataTypes } = require('sequelize')
 
-const Employ = sequelize.define('employ', {
+const Employed = sequelize.define('employed', {
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -25,8 +25,8 @@ const Employ = sequelize.define('employ', {
         type: DataTypes.STRING(255),
         allowNull: false
     },
-    phone:{
-        type: DataTypes.INTEGER,
+    phone: {
+        type: DataTypes.STRING(20),
         allowNull: false
     },
     role: {
@@ -36,8 +36,8 @@ const Employ = sequelize.define('employ', {
     status: {
         type: DataTypes.STRING(10),
         allowNull: false,
-        defaultValue: 'Unactive'
+        defaultValue: 'active'
     }
 })
 
-module.exports = { Employ }
+module.exports = { Employed }

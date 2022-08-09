@@ -58,7 +58,9 @@ const {
  *    responses:
  *      201:
  *        description: new user was created!
- * 
+ *      400:
+ *        description: some properties and/or their values are incorrect
+ *  
  */
 router.post('/', postMenu)
 

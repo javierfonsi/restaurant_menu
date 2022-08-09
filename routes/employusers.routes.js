@@ -2,7 +2,8 @@ const express = require('express')
 const router = express.Router()
 
 const { 
-    getEmployUserById 
+    getEmployUserById,
+    createEmployedUser,
 } = require('../controllers/employUsers.controller');
 
 //employed schema
@@ -53,7 +54,7 @@ const {
  *          role: chef waiter courier
  */
 
-//Post a new menu
+//Get all employed
 /**
  * @swagger
  * /api/v1/employed:
@@ -72,5 +73,27 @@ const {
  */
 
 router.get('/', getEmployUserById)
+
+//Post a new menu
+/**
+ * @swagger
+ * /api/v1/employed:
+ *  post:
+ *    summary: create a new employed
+ *    tags: [Employed]
+ *    requestBody: 
+ *      required: true
+ *      content:
+ *          application/json:
+ *              schema:
+ *                type: object
+ *                $ref: '#/components/schemas/Employed'
+ *    responses:
+ *      201:
+ *        description: new employed was created!
+ *      400:
+ *        description: some properties and/or their values are incorrect
+ */
+router.post('/', createEmployedUser)
 
 module.exports = {employedUsersRouter : router}
