@@ -7,6 +7,7 @@ const { globalErrorHandler } = require('./controllers/globalErrorHandler')
 const { AppError } = require('./util/AppError')
 const { menusRouter } = require('./routes/menus.routes')
 const { adminUsersRouter } = require('./routes/adminusers.routes')
+const { employedUsersRouter} = require('./routes/employusers.routes')
 
 //swagger
 const swaggerSpec = {
@@ -36,6 +37,7 @@ app.use(express.json())
 app.use('/api/v1/menus', menusRouter)
 app.use('/api/v1/doc', swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)))
 app.use('/api/v1/adminuser', adminUsersRouter)
+app.use('/api/v1/employed', employedUsersRouter)
 app.use('*', (req, res, next) => {
     next(new AppError(404, "The `${req.originalUrl}` does not found in this server."))
 })

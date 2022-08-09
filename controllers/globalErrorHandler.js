@@ -1,10 +1,11 @@
 const globalErrorHandler = (err, req, res, next) => {
+    err.statusCode = err.statusCode || 500 //agregado 
+    err.status = err.status || fail 
+
     res.status(err.statusCode).json({
-        statusCode: err.statusCode,
         status: err.status,
         message: err.message,
         stack: err.stack
-
     })
 }
 
