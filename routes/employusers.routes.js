@@ -54,25 +54,34 @@ const {
  *          role: chef waiter courier
  */
 
-//Get all employed
+//Get employedUser by Id
 /**
  * @swagger
  * /api/v1/employed:
  *  get:
- *    summary: Returns all employed list
+ *    summary: Returns a employedUser 
  *    tags: [Employed]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: the employed user id
  *    responses:
  *      200:
- *        description: All employed
+ *        description: Return employedUser with id
  *        content:
  *          application/json:
  *              schema:
- *                  type: array
+ *                  type: object
  *                  items:
  *                    $ref: '#/components/schemas/Employed'
+ *      404:
+ *        description: The delivered id was not found.
  */
 
-router.get('/', getEmployUserById)
+router.get('/:id', getEmployUserById)
 
 //Post a new menu
 /**
