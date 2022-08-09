@@ -57,7 +57,7 @@ const {
 //Get employedUser by Id
 /**
  * @swagger
- * /api/v1/employed:
+ * /api/v1/employed/{id}:
  *  get:
  *    summary: Returns a employedUser 
  *    tags: [Employed]
