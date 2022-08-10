@@ -25,7 +25,8 @@ const swaggerSpec = {
         },
         servers: [
             {
-                url:"http://localhost:4000"
+                url:"http://localhost:4000",
+                url:"https://apprestaurantapijr.herokuapp.com/"
             }
         ]
     },
