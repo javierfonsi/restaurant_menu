@@ -9,7 +9,11 @@ const Adminuser = sequelize.define('adminuser', {
         allowNull: false
     },
     name: {
-        type: DataTypes.STRING(60),
+        type: DataTypes.STRING(50),
+        allowNull: false
+    },
+    lastName: {
+        type: DataTypes.STRING(50),
         allowNull: false
     },
     email: {

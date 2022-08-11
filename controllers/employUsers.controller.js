@@ -1,10 +1,16 @@
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv')
+
 const { catchAsync } = require('../util/catchAsync');
 const { AppError } = require('../util/AppError');
 const { Employed } = require('../models/employusers.models');
 
+dotenv.config({path: './config.env'}) 
+
 exports.getEmployUserById = catchAsync(async (req, res, next) => {
    const { id } = req.params;
-   const employ = await Employed.findOne({ where: { id, status: 'active' } });
+   const employ = await Employed.findOne({ where: { id, status: 'unactive' } });
    if (!employ) {
       return next(new AppError(404, 'Employ is not found.'));
    }
@@ -34,17 +40,39 @@ exports.createEmployedUser = catchAsync(async (req, res, next) => {
          new AppError(400, 'Some properties and/or their values are incorrect.')
       );
    }
-   console.log('ok');
+   //bcrypt use;
+   const salt = await bcrypt.genSalt(12)
+   const hashedPassword = await bcrypt.hash(password, salt) 
+
    const employed = await Employed.create({
       name,
       lastName,
       email,
-      password,
+      password: hashedPassword, 
       phone,
       role
    });
+   //Without show password encrypted
+   employed.password = undefined
    res.status(201).json({
       status: 'Success',
       data: { employed }
-   });
+   });   
 });
+
+
+exports.loginEmployedUser = catchAsync (async (req, res, next) => {
+   const {email, password} = req.body
+   const employed = await Employed.findOne({where: {email, status:'unactive'}})
+   if(!employed && (!await bcrypt.compare(password, employed.password))) {
+      return next(new AppError('400', 'Credential are incorrect, please verify it.'))
+   }
+
+   //Add JWT
+   const token = await jwt.sign({id: employed.id}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRE_IN}) 
+
+   res.status(200).json({ 
+      status: 'Success',
+      data: { token }
+     })
+})

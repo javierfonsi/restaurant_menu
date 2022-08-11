@@ -4,12 +4,18 @@ const router = express.Router()
 const { 
     getEmployUserById,
     createEmployedUser,
+    loginEmployedUser
 } = require('../controllers/employUsers.controller');
 
 //employed schema
 /**
  * @swagger
  * components:
+ *  securitySchemes:
+ *      ApiKeyAuth:
+ *        type: apiKey
+ *        in: header
+ *        name: bearer
  *  schemas:
  *     Employed:
  *        type: object
@@ -59,7 +65,7 @@ const {
  * @swagger
  * /api/v1/employed/{id}:
  *  get:
- *    summary: Returns a employedUser 
+ *    summary: Returns an employedUser 
  *    tags: [Employed]
  *    parameters:
  *      - in: path
@@ -83,7 +89,7 @@ const {
 
 router.get('/:id', getEmployUserById)
 
-//Post a new menu
+//Post a new employedUser
 /**
  * @swagger
  * /api/v1/employed:
@@ -104,5 +110,29 @@ router.get('/:id', getEmployUserById)
  *        description: some properties and/or their values are incorrect
  */
 router.post('/', createEmployedUser)
+
+
+//Login employedUSer
+/**
+ * @swagger
+ * /api/v1/employed/login:
+ *  post:
+ *    summary: allow auth an employed
+ *    tags: [Employed]
+ *    requestBody: 
+ *      required: true
+ *      content:
+ *          application/json:
+ *              schema:
+ *                type: object
+ *                $ref: '#/components/schemas/Employed'
+ *    responses:
+ *      201:
+ *        description: new employed was created!
+ *      400:
+ *        description: some properties and/or their values are incorrect
+ */
+
+router.post('/login', loginEmployedUser)
 
 module.exports = {employedUsersRouter : router}

@@ -97,19 +97,19 @@ exports.patchMenuById = catchAsync(async (req, res, next) => {
    if (!menu) {
       return next(new AppError(404, 'The delivered id was not found.'));
    }
-   const { name, description, price } = req.body;
-   if (
-      !name ||
-      !description ||
-      !price ||
-      name.length === 0 ||
-      description.length === 0 ||
-      price.length === 0
-   ) {
-      return next(
-         new AppError(400, 'Some properties and/or their values are incorrect.')
-      );
-   }
+   //const { name, description, price } = req.body;
+   //if (
+   //   !name ||
+   //   !description ||
+   //   !price ||
+   //   name.length === 0 ||
+   //   description.length === 0 ||
+   //   price.length === 0
+   //) {
+   //   return next(
+   //      new AppError(400, 'Some properties and/or their values are incorrect.')
+   //   );
+   //}
    const data = filterObject(req.body, 'name', 'description', 'price');
    //await menu.update({...menu, ...req.body})
    await menu.update({ ...menu, ...data });
