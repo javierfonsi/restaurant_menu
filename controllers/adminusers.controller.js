@@ -23,7 +23,7 @@ exports.getAllAdminUser = catchAsync( async (req, res, next) =>{
 exports.loginAdminUser = catchAsync (async (req, res, next) => {
     const {email, password} = req.body
     const adminUser = await Adminuser.findOne({where: {email, status:'active'}})
-    if(!adminUser && (!await bcrypt.compare(password, Adminuser.password))) {
+    if(!adminUser && (!await bcrypt.compare(password, adminuser.password))) {
        return next(new AppError('400', 'Credential are incorrect, please verify it.'))
     }
  
