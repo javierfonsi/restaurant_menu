@@ -2,6 +2,7 @@ const express = require('express')
 const swaggerUI = require('swagger-ui-express')
 const swaggerJsDoc = require('swagger-jsdoc')
 const path = require('path')
+const cors = require('cors');
 
 const { globalErrorHandler } = require('./controllers/globalErrorHandler')
 const { AppError } = require('./util/AppError')
@@ -34,7 +35,13 @@ const swaggerSpec = {
 }
 const app = express()
 
+
 app.use(express.json())
+
+
+//Enable cors
+app.use('*', cors());
+
 app.use('/api/v1/menus', menusRouter)
 app.use('/api/v1/doc', swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)))
 app.use('/api/v1/adminuser', adminUsersRouter)
