@@ -46,10 +46,10 @@ app.use(express.json())
 //Enable cors
 app.use('*', cors());
 
+app.use('/api/v1/doc', swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)))
 app.use('/api/v1/menus', menusRouter)
 app.use('/api/v1/adminuser', adminUsersRouter)
 app.use('/api/v1/employed', employedUsersRouter)
-app.use('/api/v1/doc', swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)))
 app.use('*', (req, res, next) => {
     next(new AppError(404, "The `${req.originalUrl}` does not found in this server."))
 })
