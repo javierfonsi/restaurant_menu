@@ -1,27 +1,32 @@
-const express = require('express')
+const express = require('express');
 
+const {
+  getAllAdminUser,
+  getAdminUserById,
+  postAdminUser,
+  patchAdminUserById,
+  deleteAdminUserById,
+  loginAdminUser
+} = require('../controllers/adminusers.controller');
 
-const { 
-    getAllAdminUser,
-    getAdminUserById,
-    postAdminUser, 
-    patchAdminUserById,
-    deleteAdminUserById,
-    loginAdminUser
-} = require('../controllers/adminusers.controller')
+const {
+  adminUserExists,
+  protectAccountOwner
+} = require('../middlewares/adminuser.middleware');
 
+const { validateSession } = require('../middlewares/auth.middleware');
 
-const router = express.Router()
+const router = express.Router();
 
 //adminUsers schema
 /**
  * @swagger
  * components:
  *  securitySchemes:
- *      ApiKeyAuth:
- *        type: apiKey
- *        in: header
- *        name: bearer
+ *   bearerAuth:
+ *     type: http
+ *     scheme: bearer
+ *     bearerFormat: JWT
  *  schemas:
  *     AdminUser:
  *        type: object
@@ -53,28 +58,46 @@ const router = express.Router()
  *          email: albert.w@gmail.com
  *          password: "1234@"
  *          phone: 51 3125900370
+ *     LoggedAdminUser:
+ *        type: object
+ *        properties:
+ *          email:
+ *              type: string
+ *              description: According to email from employed.
+ *              max-length: 50 chars
+ *          password:
+ *              type: string
+ *              description: Fill with employee's password.
+ *              max-length: 15 chars
+ *        required:
+ *          - email
+ *          - password
+ *        example:
+ *          email: albert.w@gmail.com
+ *          password: "1234@"
  */
 
-
-// get all adminUser
+//Post a new AdminUser
 /**
  * @swagger
  * /api/v1/adminuser:
- *  get:
- *    summary: returns all adminUser which status are active
+ *  post:
+ *    summary: create a new adminUser
  *    tags: [AdminUser]
- *    responses:
- *      200:
- *        description: All adminUser
- *        content:
+ *    requestBody:
+ *      required: true
+ *      content:
  *          application/json:
  *              schema:
- *                  type: array
- *                  items:
- *                    $ref: '#/components/schemas/AdminUser'
+ *                type: object
+ *                $ref: '#/components/schemas/AdminUser'
+ *    responses:
+ *      201:
+ *        description: new adminUser was created!
+ *      400:
+ *        description: some properties and/or their values are incorrect
  */
-
-router.get('/', getAllAdminUser)
+router.post('/', postAdminUser);
 
 //Login adminUser
 /**
@@ -89,20 +112,50 @@ router.get('/', getAllAdminUser)
  *          application/json:
  *              schema:
  *                type: object
- *                $ref: '#/components/schemas/AdminUser'
+ *                $ref: '#/components/schemas/LoggedAdminUser'
  *    responses:
  *      201:
  *        description: new adminUser was created!
  *      400:
  *        description: some properties and/or their values are incorrect
  */
-router.post('/login', loginAdminUser)
+router.post('/login', loginAdminUser);
+
+router.use(validateSession);
+
+// get all adminUser
+/**
+ * @swagger
+ * /api/v1/adminuser:
+ *  get:
+ *    security:
+ *      - bearerAuth: []
+ *    summary: returns all adminUser which status are active
+ *    tags: [AdminUser]
+ *    responses:
+ *      200:
+ *        description: All adminUser
+ *        content:
+ *          application/json:
+ *              schema:
+ *                  type: array
+ *                  items:
+ *                    $ref: '#/components/schemas/AdminUser'
+ */
+
+router.get('/', getAllAdminUser);
+
+router.use('/:id', adminUserExists);
+router
+  .route('/:id')
 
 //Get adminUser by Id
 /**
  * @swagger
  * /api/v1/adminuser/{id}:
  *  get:
+ *    security:
+ *      - bearerAuth: []
  *    summary: returns an adminUser by id
  *    tags: [AdminUser]
  *    parameters:
@@ -124,35 +177,16 @@ router.post('/login', loginAdminUser)
  *      404:
  *        description: The delivered adminUser id was not found.
  */
-router.get('/:id', getAdminUserById)
 
-//Post a new AdminUser
-/**
- * @swagger
- * /api/v1/adminuser:
- *  post:
- *    summary: create a new adminUser
- *    tags: [AdminUser]
- *    requestBody: 
- *      required: true
- *      content:
- *          application/json:
- *              schema:
- *                type: object
- *                $ref: '#/components/schemas/AdminUser'
- *    responses:
- *      201:
- *        description: new adminUser was created!
- *      400:
- *        description: some properties and/or their values are incorrect
- */
-router.post('/', postAdminUser)
+  .get(getAdminUserById)
 
 // patch adminUser by Id
 /**
  * @swagger
  * /api/v1/adminuser/{id}:
  *  patch:
+ *    security:
+ *      - bearerAuth: []
  *    summary: Allows update some adminUser properties
  *    tags: [AdminUser]
  *    parameters:
@@ -162,7 +196,7 @@ router.post('/', postAdminUser)
  *          type: string
  *        required: true
  *        description: the adminUser id
- *    requestBody: 
+ *    requestBody:
  *      description: Update adminUser with selected properties
  *      required: true
  *      content:
@@ -176,13 +210,16 @@ router.post('/', postAdminUser)
  *      404:
  *        description: The delivered adminUser id was not found.
  */
-router.patch('/:id', patchAdminUserById)
+
+  .patch(protectAccountOwner, patchAdminUserById)
 
 // delete adminUser by Id
 /**
  * @swagger
  * /api/v1/adminuser/{id}:
  *  delete:
+ *    security:
+ *      - bearerAuth: []
  *    summary: delete a adminUser using soft-delete
  *    tags: [AdminUser]
  *    parameters:
@@ -198,8 +235,6 @@ router.patch('/:id', patchAdminUserById)
  *      404:
  *        description: The delivered adminUser id was not found.
  */
-router.delete('/:id', deleteAdminUserById)
+  .delete(protectAccountOwner, deleteAdminUserById);
 
-router.post('/login', loginAdminUser)
-
-module.exports = { adminUsersRouter : router}
+module.exports = { adminUsersRouter: router };
