@@ -3,7 +3,7 @@ const { app } = require('./app')
 
 //const PORT = process.env.PORT || 4000;
 
-const port = process.env.PORT;
+let port = process.env.PORT;
 if (port == null || port == "") {
   port = 4000;
 }
