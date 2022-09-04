@@ -130,4 +130,4 @@ router.post('/', createEmployedUser)
 
 router.post('/login', loginEmployedUser)
 
-module.exports = {employedUsersRouter : router}
+module.exports = {employedUsersRouter: router}

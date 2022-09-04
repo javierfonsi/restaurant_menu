@@ -234,4 +234,4 @@ router.delete('/:id', deleteMenuById)
  */
 router.delete('/harddelete/:id', HardDeletebyId)
 
-module.exports = { menusRouter : router}
+module.exports = { menusRouter: router}
