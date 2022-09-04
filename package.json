@@ -4,7 +4,7 @@
   "description": "App for menu restaurant using node, express, sequelize and postregress",
   "engines": {
     "node": "14.17.5"
-    },
+  },
   "scripts": {
     "start": "node server.js",
     "start:dev": "nodemon server.js"
