@@ -1,6 +1,8 @@
 const { sequelize } = require('./util/database')
 const { app } = require('./app')
 
+const PORT = process.env.PORT || '4000';
+
 sequelize
     .authenticate()
     .then(() => console.log('Database Postgress authenticate'))
@@ -11,7 +13,8 @@ sequelize
     .then(() => console.log("Database syncronized"))
     .catch(error => console.log(error))
 
-const PORT = process.env.PORT || 4000;
+
+app.set("port", PORT)
 
 app.listen(PORT, () => {
     console.log(`Express app running: ${PORT}`);
