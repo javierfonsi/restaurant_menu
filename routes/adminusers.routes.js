@@ -1,16 +1,16 @@
 const express = require('express');
 
 const {
+  postAdminUser,
+  loginAdminUser,
   getAllAdminUser,
   getAdminUserById,
-  postAdminUser,
   patchAdminUserById,
-  deleteAdminUserById,
-  loginAdminUser
+  deleteAdminUserById
 } = require('../controllers/adminusers.controller');
 
 const {
-  adminUserExists,
+  adminUserExist,
   protectAccountOwner
 } = require('../middlewares/adminuser.middleware');
 
@@ -145,7 +145,7 @@ router.use(validateSession);
 
 router.get('/', getAllAdminUser);
 
-router.use('/:id', adminUserExists);
+router.use('/:id', adminUserExist);
 //router.route('/:id')
 
 //Get adminUser by Id
