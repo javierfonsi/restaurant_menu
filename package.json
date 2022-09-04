@@ -2,7 +2,7 @@
   "name": "thirdweek",
   "version": "1.0.0",
   "description": "App for menu restaurant using node, express, sequelize and postregress",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "start:dev": "nodemon server.js"
