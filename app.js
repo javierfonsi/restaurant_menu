@@ -52,10 +52,10 @@ app.use(express.json())
 //Enable cors
 app.use('*', cors());
 
-app.use('/api/v1/doc', swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)))
 app.use('/api/v1/menus', menusRouter)
 app.use('/api/v1/adminuser', adminUsersRouter)
 app.use('/api/v1/employed', employedUsersRouter)
+app.use('/api/v1/doc', swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)))
 app.use('*', (req, res, next) => {
     next(new AppError(404, "The `${req.originalUrl}` does not found in this server."))
 })
@@ -64,8 +64,17 @@ app.use(globalErrorHandler)
 
 module.exports = { app }
 
+//viejos
+//DB_HOSTNAME=ec2-54-225-234-165.compute-1.amazonaws.com
+//DB_NAME=d4umd3kcelodj4
+//DB_USERNAME=jjrmwaqcfihpvs
+//DB_PASSWORD=8e916500305e8862a0e4401fca65cc1e7aaea3c28d163c9d2f10579d8bcb7c70
 
+//----JWT
+//JWT_SECRET=desaRRolloEJJJ
+//JWT_EXPIRE_IN=12h
 
+// servidor nuevo prueba no sirve por ahora
 //DB_HOSTNAME=ec2-44-194-92-192.compute-1.amazonaws.com
 //DB_NAME=dekdq3l68uociq
 //DB_USERNAME=ggxyfaqaibbyaa
