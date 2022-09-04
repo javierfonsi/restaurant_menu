@@ -11,13 +11,8 @@ const {
 /**
  * @swagger
  * components:
- *  securitySchemes:
- *      ApiKeyAuth:
- *        type: apiKey
- *        in: header
- *        name: bearer
  *  schemas:
- *     Employed:
+ *     employed:
  *        type: object
  *        properties:
  *          name:
@@ -37,13 +32,13 @@ const {
  *              description: Fill with employee's password.
  *              max-length: 15 chars
  *          phone:
- *              type: integer
+ *              type: string
  *              description: employee's mobile.
  *              max-length: 15 chars
  *          role:
  *              type: string
  *              description: Fill with employee's role.
- *              max-length: 25 chars
+ *              max-length: 15 chars
  *        required:
  *          - name
  *          - lastName
@@ -66,7 +61,7 @@ const {
  * /api/v1/employed/{id}:
  *  get:
  *    summary: Returns an employedUser 
- *    tags: [Employed]
+ *    tags: [employed]
  *    parameters:
  *      - in: path
  *        name: id
@@ -82,7 +77,7 @@ const {
  *              schema:
  *                  type: object
  *                  items:
- *                    $ref: '#/components/schemas/Employed'
+ *                    $ref: '#/components/schemas/employed'
  *      404:
  *        description: The delivered id was not found.
  */
@@ -95,14 +90,14 @@ router.get('/:id', getEmployUserById)
  * /api/v1/employed:
  *  post:
  *    summary: create a new employed
- *    tags: [Employed]
+ *    tags: [employed]
  *    requestBody: 
  *      required: true
  *      content:
  *          application/json:
  *              schema:
  *                type: object
- *                $ref: '#/components/schemas/Employed'
+ *                $ref: '#/components/schemas/employed'
  *    responses:
  *      201:
  *        description: new employed was created!
@@ -118,14 +113,14 @@ router.post('/', createEmployedUser)
  * /api/v1/employed/login:
  *  post:
  *    summary: allow auth an employed
- *    tags: [Employed]
+ *    tags: [employed]
  *    requestBody: 
  *      required: true
  *      content:
  *          application/json:
  *              schema:
  *                type: object
- *                $ref: '#/components/schemas/Employed'
+ *                $ref: '#/components/schemas/employed'
  *    responses:
  *      201:
  *        description: new employed was created!

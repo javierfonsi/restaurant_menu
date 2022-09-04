@@ -4,11 +4,16 @@ const swaggerJsDoc = require('swagger-jsdoc')
 const path = require('path')
 const cors = require('cors');
 
-const { globalErrorHandler } = require('./controllers/globalErrorHandler')
-const { AppError } = require('./util/AppError')
+//controller
+const { globalErrorHandler } = require('./controllers/error.controller')
+
+//router
 const { menusRouter } = require('./routes/menus.routes')
 const { adminUsersRouter } = require('./routes/adminusers.routes')
 const { employedUsersRouter} = require('./routes/employusers.routes')
+
+//util
+const { AppError } = require('./util/AppError')
 
 //swagger
 const swaggerSpec = {
@@ -37,11 +42,12 @@ const swaggerSpec = {
     },
     apis: [`${path.join(__dirname, './routes/*.js')}`]
 }
+
+//init server
 const app = express()
 
-
+//import json to receive requirements in json format
 app.use(express.json())
-
 
 //Enable cors
 app.use('*', cors());

@@ -67,9 +67,9 @@ exports.loginAdminUser = catchAsync(async (req, res, next) => {
 
 exports.getAllAdminUser = catchAsync(async (req, res, next) => {
   const allAdminUser = await Adminuser.findAll({ where: { status: 'active' } });
-  if (!allAdminUser) {
-    return next(new AppError(404, 'There are not adminUsers until.'));
-  }
+//  if (!allAdminUser) {
+//    return next(new AppError(404, 'There are not adminUsers until.'));
+//  }
   res.status(200).json({
     status: 'Success',
     data: { allAdminUser }
@@ -77,42 +77,52 @@ exports.getAllAdminUser = catchAsync(async (req, res, next) => {
 });
 
 exports.getAdminUserById = catchAsync(async (req, res, next) => {
-  const { id } = req.params;
-  const adminUser = await Adminuser.findOne({
-    where: { id, status: 'active' }
-  });
-  if (!adminUser) {
-    return next(new AppError(404, 'The delivered adminUser Id was not found.'));
-  }
-  adminUser.password = undefined;
+  const { user } = req;
+  //  const { id } = req.params;
+  //  const adminUser = await Adminuser.findOne({
+  //    where: { id, status: 'active' }
+  //  });
+  //  if (!adminUser) {
+  //    return next(new AppError(404, 'The delivered adminUser Id was not found.'));
+  //  }
+  user.password = undefined;
   res.status(200).json({
     status: 'Success',
-    data: { adminUser }
+    data: { user }
   });
 });
 
 exports.patchAdminUserById = catchAsync(async (req, res, next) => {
-  const { id } = req.params;
-  const adminuser = await Adminuser.findOne({
-    where: { id, status: 'active' }
+  const { user } = req;
+
+  //  const { id } = req.params;
+  //  const adminuser = await Adminuser.findOne({
+  //    where: { id, status: 'active' }
+  //  });
+  //  if (!adminuser) {
+  //    return next(new AppError(404, 'The delivered adminUser id was not found.'));
+  //  }
+  const data = filterObject(req.body, 'name', 'lastName', 'email', 'password');
+  await user.update({ ...data, ...req.Body });
+  res.status(201).json({
+    status: 'Success',
+    message: `The Id ${user.id} was modified correctly`
   });
-  if (!adminuser) {
-    return next(new AppError(404, 'The delivered adminUser id was not found.'));
-  }
-  const data = filterObject(req.body, 'name', 'email');
-  await adminuser.update({ ...data, ...req.Body });
-  res.status(204).json({ status: 'Success' });
 });
 
 exports.deleteAdminUserById = catchAsync(async (req, res, next) => {
-  const { id } = req.params;
-  const adminUser = await Adminuser.findOne({
-    where: { id, status: 'active' }
-  });
-  if (!adminUser) {
-    return next(new AppError(404, 'Delivered ID was not found'));
-  }
+  const { user } = req;
+  //  const { id } = req.params;
+  //  const adminUser = await Adminuser.findOne({
+  //    where: { id, status: 'active' }
+  //  });
+  //  if (!adminUser) {
+  //    return next(new AppError(404, 'Delivered ID was not found'));
+  //  }
 
-  await adminUser.update({ status: 'deleted' });
-  res.status(204).json({ status: 'Success' });
+  await user.update({ status: 'deleted' });
+  res.status(201).json({
+    status: 'Success',
+    message: `The Id ${user.id} was modified correctly`
+  });
 });

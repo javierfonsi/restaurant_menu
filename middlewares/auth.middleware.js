@@ -35,7 +35,7 @@ exports.validateSession = catchAsync(async (req, res, next) => {
 
   // Validate that the id the token contains belongs to a valid user
   // SELECT id, email FROM users;
-  const adminuser = await Adminuser.findOne({
+  const adminUser = await Adminuser.findOne({
     attributes: { exclude: ['password'] },
     where: { id: decodedToken.id, status: 'active' }
   });
@@ -45,7 +45,7 @@ exports.validateSession = catchAsync(async (req, res, next) => {
   }
 
   //req.anyName = anyValue
-  req.currentUser = adminuser;
+  req.currentUser = adminUser;
 
   // Grant access
   next();

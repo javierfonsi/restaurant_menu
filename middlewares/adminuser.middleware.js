@@ -7,16 +7,16 @@ const { catchAsync } = require('../util/catchAsync');
 exports.adminUserExists = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
-  const adminuser = await Adminuser.findOne({
+  const adminUser = await Adminuser.findOne({
     attributes: { exclude: ['password'] },
     where: { id, status: 'active' }
   });
 
-  if (!adminuser) {
+  if (!adminUser) {
     return next(new AppError(404, `The id ${id} selected was not found`));
   }
 
-  req.user = adminuser;
+  req.user = adminUser;
   next();
 });
 

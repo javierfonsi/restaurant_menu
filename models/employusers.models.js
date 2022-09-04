@@ -1,5 +1,8 @@
-const { sequelize } = require('../util/database')
+//import Datatypes
 const { DataTypes } = require('sequelize')
+
+//import DB
+const { sequelize } = require('../util/database')
 
 const Employed = sequelize.define('employed', {
     id: {
@@ -10,11 +13,12 @@ const Employed = sequelize.define('employed', {
     },
     name: {
         type: DataTypes.STRING(50),
-        allowNull: false
+        allowNull: false,
     },
     lastName: {
         type: DataTypes.STRING(50),
-        allowNull: false
+        allowNull: false,
+        
     },
     email: {
         type: DataTypes.STRING(60),

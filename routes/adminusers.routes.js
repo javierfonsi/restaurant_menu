@@ -28,7 +28,7 @@ const router = express.Router();
  *     scheme: bearer
  *     bearerFormat: JWT
  *  schemas:
- *     AdminUser:
+ *     adminuser:
  *        type: object
  *        properties:
  *          name:
@@ -58,7 +58,7 @@ const router = express.Router();
  *          email: albert.w@gmail.com
  *          password: "1234@"
  *          phone: 51 3125900370
- *     LoggedAdminUser:
+ *     loggedAdminUser:
  *        type: object
  *        properties:
  *          email:
@@ -83,14 +83,14 @@ const router = express.Router();
  * /api/v1/adminuser:
  *  post:
  *    summary: create a new adminUser
- *    tags: [AdminUser]
+ *    tags: [adminuser]
  *    requestBody:
  *      required: true
  *      content:
  *          application/json:
  *              schema:
  *                type: object
- *                $ref: '#/components/schemas/AdminUser'
+ *                $ref: '#/components/schemas/adminuser'
  *    responses:
  *      201:
  *        description: new adminUser was created!
@@ -105,14 +105,14 @@ router.post('/', postAdminUser);
  * /api/v1/adminuser/login:
  *  post:
  *    summary: allow auth an adminUser
- *    tags: [AdminUser]
+ *    tags: [adminuser]
  *    requestBody: 
  *      required: true
  *      content:
  *          application/json:
  *              schema:
  *                type: object
- *                $ref: '#/components/schemas/LoggedAdminUser'
+ *                $ref: '#/components/schemas/loggedAdminUser'
  *    responses:
  *      201:
  *        description: new adminUser was created!
@@ -131,7 +131,7 @@ router.use(validateSession);
  *    security:
  *      - bearerAuth: []
  *    summary: returns all adminUser which status are active
- *    tags: [AdminUser]
+ *    tags: [adminuser]
  *    responses:
  *      200:
  *        description: All adminUser
@@ -140,7 +140,7 @@ router.use(validateSession);
  *              schema:
  *                  type: array
  *                  items:
- *                    $ref: '#/components/schemas/AdminUser'
+ *                    $ref: '#/components/schemas/adminuser'
  */
 
 router.get('/', getAllAdminUser);
@@ -156,7 +156,7 @@ router.use('/:id', adminUserExists);
  *    security:
  *      - bearerAuth: []
  *    summary: returns an adminUser by id
- *    tags: [AdminUser]
+ *    tags: [adminuser]
  *    parameters:
  *      - in: path
  *        name: id
@@ -172,7 +172,7 @@ router.use('/:id', adminUserExists);
  *              schema:
  *                  type: object
  *                  items:
- *                    $ref: '#/components/schemas/AdminUser'
+ *                    $ref: '#/components/schemas/adminuser'
  *      404:
  *        description: The delivered adminUser id was not found.
  */
@@ -187,7 +187,7 @@ router.use('/:id', adminUserExists);
  *    security:
  *      - bearerAuth: []
  *    summary: Allows update some adminUser properties
- *    tags: [AdminUser]
+ *    tags: [adminuser]
  *    parameters:
  *      - in: path
  *        name: id
@@ -202,7 +202,7 @@ router.use('/:id', adminUserExists);
  *          application/json:
  *              schema:
  *                type: properties
- *                $ref: '#/components/schemas/AdminUser'
+ *                $ref: '#/components/schemas/adminuser'
  *    responses:
  *      204:
  *        description: The selected adminUser id was modified partially
@@ -220,7 +220,7 @@ router.patch("/:id", protectAccountOwner, patchAdminUserById)
  *    security:
  *      - bearerAuth: []
  *    summary: delete a adminUser using soft-delete
- *    tags: [AdminUser]
+ *    tags: [adminuser]
  *    parameters:
  *      - in: path
  *        name: id
