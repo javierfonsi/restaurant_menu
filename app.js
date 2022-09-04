@@ -1,8 +1,8 @@
 const express = require('express')
 const swaggerUI = require('swagger-ui-express')
 const swaggerJsDoc = require('swagger-jsdoc')
-const path = require('path')
 const cors = require('cors');
+const path = require('path')
 
 //controller
 const { globalErrorHandler } = require('./controllers/error.controller')
@@ -64,3 +64,14 @@ app.use(globalErrorHandler)
 
 
 module.exports = { app }
+
+
+
+//DB_HOSTNAME=ec2-44-194-92-192.compute-1.amazonaws.com
+//DB_NAME=dekdq3l68uociq
+//DB_USERNAME=ggxyfaqaibbyaa
+//DB_PASSWORD=e77f9748d7b750647df7c4368dc3d0ae7017bebac17d4398cc896a2ad0e260be
+
+//----JWT
+//JWT_SECRET=desaRRolloEJJJ
+//JWT_EXPIRE_IN=12h

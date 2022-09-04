@@ -19,7 +19,7 @@ sequelize
     .catch(error => console.log(error))
 
 app.listen(port, () => {
-    console.log(`Express app running: ${PORT}`);
+    console.log(`Express app running: ${port}`);
 });
 
 //app.listen(4000, () =>{
