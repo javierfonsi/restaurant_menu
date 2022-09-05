@@ -10,8 +10,8 @@ const {
     loginAdminUser
 } = require('../controllers/adminusers.controller');
 
-const { adminUserExist, protectAccountOwner } = require('../middlewares/adminuser.middleware');
-const { validateSession } = require('../middlewares/auth.middleware');
+//const { adminUserExist, protectAccountOwner } = require('../middlewares/adminuser.middleware');
+//const { validateSession } = require('../middlewares/auth.middleware');
 
 
 const router = express.Router()
