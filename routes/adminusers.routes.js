@@ -179,9 +179,7 @@ router
  *                  items:
  *                    $ref: '#/components/schemas/adminuser'
  *      401:
- *        description: Invalid session.
- *      401:
- *        description: The token wasn't delivery, please add it.
+ *        description: The token wasn't delivery, please add it. Or. Invalid session.
  *      404:
  *        description: The delivered adminUser id was not found.
  */
@@ -217,9 +215,7 @@ router
  *      201:
  *        description: The selected adminUser id was modified
  *      401:
- *        description: The token wasn't delivery, please add it.
- *      401:
- *        description: Invalid session.
+ *        description: The token wasn't delivery, please add it. Or Invalid session.
  *      403:
  *        description: You can't update or delete other users accounts.
  *      404:
@@ -249,9 +245,7 @@ router
  *      201:
  *        description: The selected adminUser id was deleted.
  *      401:
- *        description: Invalid session.
- *      401:
- *        description: The token wasn't delivery, please add it. 
+ *        description: The token wasn't delivery, please add it. Or. Invalid session.
  *      403:
  *        description: You can't update or delete other users accounts.
  *      404:
