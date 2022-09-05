@@ -11,7 +11,7 @@ const {
 } = require('../controllers/adminusers.controller');
 
 //const { adminUserExist, protectAccountOwner } = require('../middlewares/adminuser.middleware');
-const { validateSession } = require('../middlewares/auth.middleware');
+//const { validateSession } = require('../middlewares/auth.middleware');
 
 
 const router = express.Router()
@@ -119,7 +119,7 @@ const router = express.Router()
   */
  router.post('/login', loginAdminUser);
  
- router.use(validateSession);
+// router.use(validateSession);
  
 // // get all adminUser
 // /**
