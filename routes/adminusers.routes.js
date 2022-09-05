@@ -143,6 +143,8 @@ router.use(validateSession);
  *                  type: array
  *                  items:
  *                    $ref: '#/components/schemas/adminuser'
+ *      401:
+ *        description: Invalid session.
  */
 
 router.get('/', getAllAdminUser);
@@ -176,6 +178,8 @@ router
  *                  type: object
  *                  items:
  *                    $ref: '#/components/schemas/adminuser'
+ *      401:
+ *        description: Invalid session.
  *      401:
  *        description: The token wasn't delivery, please add it.
  *      404:
@@ -214,6 +218,8 @@ router
  *        description: The selected adminUser id was modified
  *      401:
  *        description: The token wasn't delivery, please add it.
+ *      401:
+ *        description: Invalid session.
  *      403:
  *        description: You can't update or delete other users accounts.
  *      404:
@@ -221,7 +227,7 @@ router
  */
 
 //router.patch("/:id", protectAccountOwner, patchAdminUserById)
-    .patch(protectAccountOwner, patchAdminUserById)
+.patch(protectAccountOwner, patchAdminUserById)
 
 // delete adminUser by Id
 /**
@@ -243,7 +249,9 @@ router
  *      201:
  *        description: The selected adminUser id was deleted.
  *      401:
- *        description: The token wasn't delivery, please add it.
+ *        description: Invalid session.
+ *      401:
+ *        description: The token wasn't delivery, please add it. 
  *      403:
  *        description: You can't update or delete other users accounts.
  *      404:
