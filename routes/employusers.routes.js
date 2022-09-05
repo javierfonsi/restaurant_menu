@@ -12,10 +12,6 @@ const {
  * @swagger
  * components:
  *  securitySchemes:
- *      ApiKeyAuth:
- *        type: apiKey
- *        in: header
- *        name: bearer
  *  schemas:
  *     Employed:
  *        type: object

@@ -18,10 +18,10 @@ const router = express.Router()
  * @swagger
  * components:
  *  securitySchemes:
- *      ApiKeyAuth:
- *        type: apiKey
- *        in: header
- *        name: bearer
+ *   bearerAuth:
+ *     type: http
+ *     scheme: bearer
+ *     bearerFormat: JWT
  *  schemas:
  *     AdminUser:
  *        type: object
@@ -53,6 +53,23 @@ const router = express.Router()
  *          email: albert.w@gmail.com
  *          password: "1234@"
  *          phone: 51 3125900370
+ *     loggedAdminUser:
+ *        type: object
+ *        properties:
+ *          email:
+ *              type: string
+ *              description: According to email from employed.
+ *              max-length: 50 chars
+ *          password:
+ *              type: string
+ *              description: Fill with employee's password.
+ *              max-length: 15 chars
+ *        required:
+ *          - email
+ *          - password
+ *        example:
+ *          email: albert.w@gmail.com
+ *          password: "1234@"
  */
 
 
