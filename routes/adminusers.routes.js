@@ -11,7 +11,7 @@ const {
 } = require('../controllers/adminusers.controller');
 
 //const { adminUserExist, protectAccountOwner } = require('../middlewares/adminuser.middleware');
-//const { validateSession } = require('../middlewares/auth.middleware');
+const { validateSession } = require('../middlewares/auth.middleware');
 
 
 const router = express.Router()
@@ -97,29 +97,29 @@ const router = express.Router()
  */
  router.post('/', postAdminUser);
 
-// //Login adminUser
-// /**
-//  * @swagger
-//  * /api/v1/adminuser/login:
-//  *  post:
-//  *    summary: allow auth an adminUser
-//  *    tags: [adminuser]
-//  *    requestBody: 
-//  *      required: true
-//  *      content:
-//  *          application/json:
-//  *              schema:
-//  *                type: object
-//  *                $ref: '#/components/schemas/loggedAdminUser'
-//  *    responses:
-//  *      201:
-//  *        description: new adminUser was created!
-//  *      400:
-//  *        description: some properties and/or their values are incorrect
-//  */
-// router.post('/login', loginAdminUser);
+ //Login adminUser
+ /**
+  * @swagger
+  * /api/v1/adminuser/login:
+  *  post:
+  *    summary: allow auth an adminUser
+  *    tags: [adminuser]
+  *    requestBody: 
+  *      required: true
+  *      content:
+  *          application/json:
+  *              schema:
+  *                type: object
+  *                $ref: '#/components/schemas/loggedAdminUser'
+  *    responses:
+  *      201:
+  *        description: new adminUser was created!
+  *      400:
+  *        description: some properties and/or their values are incorrect
+  */
+ router.post('/login', loginAdminUser);
  
-// router.use(validateSession);
+ router.use(validateSession);
  
 // // get all adminUser
 // /**
