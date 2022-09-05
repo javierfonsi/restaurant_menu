@@ -123,7 +123,6 @@ router.post('/', postAdminUser);
  */
 router.post('/login', loginAdminUser);
 
-router.use(validateSession);
 
 // get all adminUser
 /**
@@ -147,6 +146,7 @@ router.use(validateSession);
  *        description: Invalid session.
  */
 
+router.use(validateSession);
 router.get('/', getAllAdminUser);
 
 router.use('/:id', adminUserExist);
