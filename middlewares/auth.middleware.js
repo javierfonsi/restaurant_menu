@@ -40,7 +40,7 @@ exports.validateSession = catchAsync(async (req, res, next) => {
     where: { id: decodedToken.id, status: 'active' }
   });
 
-  if (!adminuser) {
+  if (!adminUser) {
     return next(new AppError(401, 'Invalid session'));
   }
 
