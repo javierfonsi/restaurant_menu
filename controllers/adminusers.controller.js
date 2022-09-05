@@ -66,7 +66,10 @@ exports.loginAdminUser = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllAdminUser = catchAsync(async (req, res, next) => {
-  const allAdminUser = await Adminuser.findAll({ where: { status: 'active' } });
+  const allAdminUser = await Adminuser.findAll({ 
+    attributes: { exclude: ['password']},
+    where: { status: 'active' } 
+  });
 //  if (!allAdminUser) {
 //    return next(new AppError(404, 'There are not adminUsers until.'));
 //  }

@@ -206,8 +206,8 @@ router
  *                type: properties
  *                $ref: '#/components/schemas/adminuser'
  *    responses:
- *      204:
- *        description: The selected adminUser id was modified partially
+ *      201:
+ *        description: The selected adminUser id was modified
  *      404:
  *        description: The delivered adminUser id was not found.
  */
@@ -234,6 +234,8 @@ router
  *    responses:
  *      204:
  *        description: The selected adminUser id was deleted.
+ *      403:
+ *        description: You can't update or delete other users accounts.
  *      404:
  *        description: The delivered adminUser id was not found.
  */
