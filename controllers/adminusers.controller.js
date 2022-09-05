@@ -62,8 +62,8 @@ exports.loginAdminUser = catchAsync(async (req, res, next) => {
       expiresIn: process.env.JWT_EXPIRE_IN
     });
     
-  adminUser = await Adminuser.findOne({
-    attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'email'] }
+  adminUser = await Adminuser.findOne({ where:{ email, status:'active'}, attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'email'] }
+
     //attributes: { include: ['name', 'lastName', 'status'] }
   })
   
