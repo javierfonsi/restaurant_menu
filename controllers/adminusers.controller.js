@@ -70,7 +70,7 @@ exports.loginAdminUser = catchAsync(async (req, res, next) => {
  
   res.status(200).json({
     status: 'Success',
-    data: [{ token }, {userData: adminUser}]
+    data: { token, userData: adminUser }
   });
 });
 
