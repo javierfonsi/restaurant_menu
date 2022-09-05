@@ -47,11 +47,16 @@ const router = express.Router();
  *              type: string
  *              description: Fill with employee's password.
  *              max-length: 15 chars
+ *          phone:
+ *              type: string
+ *              description: Fill with employee's phone.
+ *              max-length: 15 chars
  *        required:
  *          - name
  *          - lastName
  *          - email
  *          - password
+ *          - phone
  *        example:
  *          name: Albert
  *          lastName: Einstein
@@ -75,6 +80,25 @@ const router = express.Router();
  *        example:
  *          email: albert.w@gmail.com
  *          password: "1234@"
+ *     patchAdminUser:
+ *        type: object
+ *        properties:
+ *          name:
+ *              type: string
+ *              description: This field must be name employed.
+ *              max-length: 50 chars
+ *          lastName:
+ *              type: string
+ *              description: Fill with employee's lastname.
+ *              max-length: 50 chars
+ *          phone:
+ *              type: string
+ *              description: Fill with employee's phone.
+ *              max-length: 15 chars
+ *        example:
+ *          name: Albert
+ *          lastName: Einstein
+ *          phone: 51 3125900370
  */
 
 //Post a new AdminUser
@@ -208,7 +232,7 @@ router
  *          application/json:
  *              schema:
  *                type: properties
- *                $ref: '#/components/schemas/adminuser'
+ *                $ref: '#/components/schemas/patchAdminUser'
  *    responses:
  *      201:
  *        description: The selected adminUser id was modified

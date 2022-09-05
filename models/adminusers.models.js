@@ -21,6 +21,10 @@ const Adminuser = sequelize.define('adminuser', {
         allowNull: false,
         unique: true,
     },
+    phone: {
+        type: DataTypes.STRING(15),
+        allowNull: false
+    },
     password:{
         type: DataTypes.STRING(250),
         allowNull: false

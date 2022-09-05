@@ -10,16 +10,18 @@ const { filterObject } = require('../util/filterObject');
 dotenv.config({ path: './config.env' });
 
 exports.postAdminUser = catchAsync(async (req, res, next) => {
-  const { name, lastName, email, password } = req.body;
+  const { name, lastName, email, password, phone } = req.body;
   if (
     !name ||
     !lastName ||
     !email ||
     !password ||
+    !phone ||
     name.length === 0 ||
     lastName.length === 0 ||
     email.length === 0 ||
-    password.length === 0
+    password.length === 0 ||
+    phone.length === 0
   ) {
     return next(
       new AppError(400, 'Some properties and/or their values are inconrrect.')
@@ -33,7 +35,8 @@ exports.postAdminUser = catchAsync(async (req, res, next) => {
     name,
     lastName,
     email,
-    password: hashpassword
+    password: hashpassword,
+    phone
   });
 
   adminUser.password = undefined;
@@ -45,23 +48,29 @@ exports.postAdminUser = catchAsync(async (req, res, next) => {
 
 exports.loginAdminUser = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
-  const adminUser = await Adminuser.findOne({
+  let adminUser = await Adminuser.findOne({
     where: { email, status: 'active' }
   });
   if (!adminUser || !(await bcrypt.compare(password, adminUser.password))) {
     return next(
       new AppError('400', 'Credential are incorrect, please verify it.')
-    );
-  }
-
-  //Add JWT
-  const token = await jwt.sign({ id: adminUser.id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRE_IN
-  });
-
+      );
+    }
+    
+    //Add JWT
+    const token = await jwt.sign({ id: adminUser.id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRE_IN
+    });
+    
+  adminUser = await Adminuser.findOne({
+    attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'email'] }
+    //attributes: { include: ['name', 'lastName', 'status'] }
+  })
+  
+ 
   res.status(200).json({
     status: 'Success',
-    data: { token }
+    data: [{ token }, {userData: adminUser}]
   });
 });
 
@@ -105,7 +114,17 @@ exports.patchAdminUserById = catchAsync(async (req, res, next) => {
   //  if (!adminuser) {
   //    return next(new AppError(404, 'The delivered adminUser id was not found.'));
   //  }
-  const data = filterObject(req.body, 'name', 'lastName', 'email', 'password');
+
+  //const salt = await bcrypt.genSaltSync(12);
+  //const hashpassword = await bcrypt.hash(password, salt);
+
+  //const adminUser = await Adminuser.update({
+  //  password: hashpassword
+  //});
+
+  //adminUser.password = undefined;
+
+  const data = filterObject(req.body, 'name', 'lastName', 'phone');
   await user.update({ ...data, ...req.Body });
   res.status(201).json({
     status: 'Success',
