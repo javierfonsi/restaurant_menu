@@ -114,6 +114,8 @@ router.post('/', postAdminUser);
  *                type: object
  *                $ref: '#/components/schemas/loggedAdminUser'
  *    responses:
+ *      200:
+ *        Description: return a valid token  
  *      201:
  *        description: new adminUser was created!
  *      400:
@@ -174,12 +176,14 @@ router
  *                  type: object
  *                  items:
  *                    $ref: '#/components/schemas/adminuser'
+ *      401:
+ *        description: The token wasn't delivery, please add it.
  *      404:
  *        description: The delivered adminUser id was not found.
  */
 
 // router.get("/:id", getAdminUserById)
-    .get(getAdminUserById)
+.get(getAdminUserById)
 
 // patch adminUser by Id
 /**
@@ -208,6 +212,10 @@ router
  *    responses:
  *      201:
  *        description: The selected adminUser id was modified
+ *      401:
+ *        description: The token wasn't delivery, please add it.
+ *      403:
+ *        description: You can't update or delete other users accounts.
  *      404:
  *        description: The delivered adminUser id was not found.
  */
@@ -232,8 +240,10 @@ router
  *        required: true
  *        description: Type the adminUser id to delete
  *    responses:
- *      204:
+ *      201:
  *        description: The selected adminUser id was deleted.
+ *      401:
+ *        description: The token wasn't delivery, please add it.
  *      403:
  *        description: You can't update or delete other users accounts.
  *      404:

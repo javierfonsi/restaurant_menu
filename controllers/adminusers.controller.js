@@ -109,7 +109,7 @@ exports.patchAdminUserById = catchAsync(async (req, res, next) => {
   await user.update({ ...data, ...req.Body });
   res.status(201).json({
     status: 'Success',
-    message: `The Id ${user.id} was modified correctly`
+    message: `The data user with ${user.id} was modified correctly`
   });
 });
 
@@ -126,6 +126,6 @@ exports.deleteAdminUserById = catchAsync(async (req, res, next) => {
   await user.update({ status: 'deleted' });
   res.status(201).json({
     status: 'Success',
-    message: `The Id ${user.id} was modified correctly`
+    message: `The Id ${user.id} was delete correctly`
   });
 });
