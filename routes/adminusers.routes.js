@@ -146,7 +146,8 @@ router.use(validateSession);
 router.get('/', getAllAdminUser);
 
 router.use('/:id', adminUserExist);
-//router.route('/:id')
+router
+    .route('/:id')
 
 //Get adminUser by Id
 /**
@@ -177,7 +178,8 @@ router.use('/:id', adminUserExist);
  *        description: The delivered adminUser id was not found.
  */
 
- router.get("/:id", getAdminUserById)
+// router.get("/:id", getAdminUserById)
+    .get(getAdminUserById)
 
 // patch adminUser by Id
 /**
@@ -210,7 +212,8 @@ router.use('/:id', adminUserExist);
  *        description: The delivered adminUser id was not found.
  */
 
-router.patch("/:id", protectAccountOwner, patchAdminUserById)
+//router.patch("/:id", protectAccountOwner, patchAdminUserById)
+    .patch(protectAccountOwner, patchAdminUserById)
 
 // delete adminUser by Id
 /**
@@ -234,6 +237,7 @@ router.patch("/:id", protectAccountOwner, patchAdminUserById)
  *      404:
  *        description: The delivered adminUser id was not found.
  */
-  .delete("/:id", protectAccountOwner, deleteAdminUserById);
+//  router.delete("/:id", protectAccountOwner, deleteAdminUserById);
+    .delete(protectAccountOwner, deleteAdminUserById);
 
 module.exports = { adminUsersRouter: router };
