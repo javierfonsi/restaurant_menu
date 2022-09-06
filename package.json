@@ -1,5 +1,5 @@
 {
-  "name": "thirdweek",
+  "name": "restaurant",
   "version": "1.0.0",
   "description": "App for menu restaurant using node, express, sequelize and postregress",
   "engines": {

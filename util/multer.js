@@ -1,7 +1,7 @@
 const multer = require('multer');
 
 // Utils
-const { AppError } = require('./appError');
+const { AppError } = require('./AppError');
 
 const storage = multer.memoryStorage(); // req.file
 
