@@ -1,7 +1,9 @@
+const { ref, getDownloadURL, uploadBytes } = require('firebase/storage');
 const { catchAsync } = require('../util/catchAsync');
 const { AppError } = require('../util/AppError');
 const { Menu } = require('../models/menus.models');
 const { filterObject } = require('../util/filterObject');
+const { storage } = require('../util/firebase');
 
 //const menus = [
 //    {id: 1, name: "Estofado de pollo", description: "Delicioso pollo a las finas hiervas", price: "3 Us" },
@@ -13,30 +15,73 @@ const { filterObject } = require('../util/filterObject');
 
 exports.getAllMenus = catchAsync(async (req, res, next) => {
    const menu = await Menu.findAll({ where: { status: 'active' } });
+
+   if(menu.length ===0 ){
+      return next(new AppError(404, 'There are not menus until'))
+   }
+
+     // Promise[]
+  const menusPromises = menu.map(
+   async ({
+     id,
+     name,
+     description,
+     price,
+     img_Url,
+     createdAt,
+     updatedAt,
+   }) => {
+     const imgRef = ref(storage, img_Url);
+
+     const imgDownloadUrl = await getDownloadURL(imgRef);
+
+     return {
+       id,
+       name,
+       description,
+       price,
+       img_Url: imgDownloadUrl,
+       createdAt,
+       updatedAt,
+     };
+   }
+ );
+
+ const resolvedMenus = await Promise.all(menusPromises);
+
+// const moviesMapeado = resolvedMenus.map((menu) => {
+//   menu.actorsinmovies = null;
+//   return movie;
+// });
+
    res.status(200).json({
       status: 'Success',
       data: {
-         menu
+         menu: resolvedMenus
       }
    });
 });
 
 exports.getMenuById = catchAsync(async (req, res, next) => {
    const { id } = req.params;
-   const menu = await Menu.findOne({ where: { id: id, status: 'active' } });
-   if (!menu) {
+   let currentMenu = await Menu.findOne({ where: { id: id, status: 'active' } });
+   if (!currentMenu) {
       return next(new AppError(404, 'The delivered id was not found'));
    }
+   const imgRef = ref(storage, img_Url);
+
+   currentMenu.img_Url = await getDownloadURL(imgRef);
+
    res.status(200).json({
       status: 'Success',
       data: {
-         menu
+         currentMenu
       }
    });
 });
 
-exports.postMenu = catchAsync(async (req, res, next) => {
-   const { name, description, price } = req.body;
+exports.createMenu = catchAsync(async (req, res, next) => {
+   const { name, description, price, img_Url } = req.body;
    if (
       !name ||
       !description ||
@@ -49,10 +94,16 @@ exports.postMenu = catchAsync(async (req, res, next) => {
          new AppError(400, 'Some properties and/or their values are incorrect.')
       );
    }
+
+   // Upload img to Cloud Storage (Firebase)
+  const imgRef = ref(storage, `${Date.now()}-${req.file.originalname}`);
+  const result = await uploadBytes(imgRef, req.file.buffer);
+
    const menu = await Menu.create({
       name,
       description,
-      price
+      price,
+      img_Url: result.metadata.fullPath
    });
    res.status(201).json({
       status: 'Success',

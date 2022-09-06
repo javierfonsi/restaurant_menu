@@ -49,6 +49,9 @@ const app = express()
 //import json to receive requirements in json format
 app.use(express.json())
 
+//enable multipart form/data incoming data (to receive file)
+express.urlencoded({ extended: true });
+
 //Enable cors
 app.use('*', cors());
 
@@ -83,3 +86,12 @@ module.exports = { app }
 //----JWT
 //JWT_SECRET=desaRRolloEJJJ
 //JWT_EXPIRE_IN=12h
+
+
+//Firebase credential last work ok
+//FIREBASE_API_KEY=AIzaSyBShLh051G1x8y5OeTpyLX40O6TyXh0-50
+//FIREBASE_AUTH_DOMAIN=example-a6b4e.firebaseapp.com
+//FIREBASE_PROJECT_ID=example-a6b4e
+//FIREBASE_STORAGE_BUCKET=example-a6b4e.appspot.com
+//FIREBASE_MESSAGING_SENDER_ID=408231399471
+//FIREBASE_APP_ID=1:408231399471:web:59b3fc781c8a5b097ff6da
