@@ -2,21 +2,26 @@ const express = require('express')
 const router = express.Router()
 
 const { 
+    createMenu,
     getAllMenus,
     getMenuById,
-    postMenu,
     putMenuById,
     patchMenuById,
     deleteMenuById,
-    HardDeletebyId
+    HardDeletebyId,
 } = require('../controllers/menus.controller')
+
+const { validateSession, userAdmin } = require('../middlewares/auth.middleware')
+
+//util
+const { upload } = require('../util/multer')
 
 //menus schema
 /**
  * @swagger
  * components:
  *  schemas:
- *     Menu:
+ *     menu:
  *        type: object
  *        properties:
  *          name:
@@ -31,14 +36,21 @@ const {
  *              type: string
  *              description: Price detail
  *              max-size: 10 chars
+ *          img_Url:
+ *              type: string
+ *              format: base64
+ *              description: Menu photo
+ *              max-length: 200 chars
  *        required:
  *          - name
  *          - description
  *          - price
+ *          - img_Url
  *        example:
  *          name: Mushroom soup
  *          description: Wild mushroom, sour cream scallion.
  *          price: 7,89 US
+ *          img_Url: Ceviche de camaron.jpg
  */
 
 //Post a new menu
@@ -46,15 +58,17 @@ const {
  * @swagger
  * /api/v1/menus:
  *  post:
+ *    security:
+ *      - bearerAuth: []
  *    summary: create a new menu
- *    tags: [Menu]
+ *    tags: [menu]
  *    requestBody: 
  *      required: true
  *      content:
- *          application/json:
+ *          multipart/form-data:
  *              schema:
  *                type: object
- *                $ref: '#/components/schemas/Menu'
+ *                $ref: '#/components/schemas/menu'
  *    responses:
  *      201:
  *        description: new user was created!
@@ -62,15 +76,20 @@ const {
  *        description: some properties and/or their values are incorrect
  *  
  */
-router.post('/', postMenu)
+
+//router.use(validateSession);
+//router.post('/', userAdmin, upload.single('img_Url') , createMenu)
+router.post('/',  upload.single('img_Url') , createMenu)
 
 // get all menus
 /**
  * @swagger
  * /api/v1/menus:
  *  get:
+ *    security:
+ *      - bearerAuth: []
  *    summary: returns all menus which status are active
- *    tags: [Menu]
+ *    tags: [menu]
  *    responses:
  *      200:
  *        description: All menus
@@ -79,7 +98,7 @@ router.post('/', postMenu)
  *              schema:
  *                  type: array
  *                  items:
- *                    $ref: '#/components/schemas/Menu'
+ *                    $ref: '#/components/schemas/menu'
  */
 router.get('/', getAllMenus)
 
@@ -88,8 +107,10 @@ router.get('/', getAllMenus)
  * @swagger
  * /api/v1/menus/{id}:
  *  get:
+ *    security:
+ *      - bearerAuth: []
  *    summary: returns a selected id menu which status is active
- *    tags: [Menu]
+ *    tags: [menu]
  *    parameters:
  *      - in: path
  *        name: id
@@ -104,7 +125,7 @@ router.get('/', getAllMenus)
  *          application/json:
  *            schema:
  *              type: object
- *              $ref: '#/components/schemas/Menu'
+ *              $ref: '#/components/schemas/menu'
  *      404:
  *        description: The delivered id was not found.
  */
@@ -116,8 +137,10 @@ router.get('/:id', getMenuById)
  * @swagger
  * /api/v1/menus/{id}:
  *  put:
+ *    security:
+ *      - bearerAuth: []
  *    summary: Allows update all menus properties
- *    tags: [Menu]
+ *    tags: [menu]
  *    parameters:
  *      - in: path
  *        name: id
@@ -131,7 +154,7 @@ router.get('/:id', getMenuById)
  *          application/json:
  *              schema:
  *                type: object
- *                $ref: '#/components/schemas/Menu'
+ *                $ref: '#/components/schemas/menu'
  *    responses:
  *      200:
  *        description: The selected menu was modified totaly
@@ -147,8 +170,10 @@ router.put('/:id', putMenuById)
  * @swagger
  * /api/v1/menus/{id}:
  *  patch:
+ *    security:
+ *      - bearerAuth: []
  *    summary: Allows update some menus properties
- *    tags: [Menu]
+ *    tags: [menu]
  *    parameters:
  *      - in: path
  *        name: id
@@ -163,7 +188,7 @@ router.put('/:id', putMenuById)
  *          application/json:
  *              schema:
  *                type: properties
- *                $ref: '#/components/schemas/Menu'
+ *                $ref: '#/components/schemas/menu'
  *    responses:
  *      204:
  *        description: The selected id was modified partially
@@ -180,8 +205,10 @@ router.patch('/:id', patchMenuById)
  * @swagger
  * /api/v1/menus/{id}:
  *  delete:
+ *    security:
+ *      - bearerAuth: []
  *    summary: delete a menu using soft-delete
- *    tags: [Menu]
+ *    tags: [menu]
  *    parameters:
  *      - in: path
  *        name: id
@@ -202,8 +229,10 @@ router.delete('/:id', deleteMenuById)
  * @swagger
  * /api/v1/menus/harddelete/{id}:
  *  delete:
+ *    security:
+ *      - bearerAuth: []
  *    summary: delete menu Id using hard-delete
- *    tags: [Menu]
+ *    tags: [menu]
  *    parameters:
  *      - in: path
  *        name: id

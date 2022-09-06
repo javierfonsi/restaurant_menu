@@ -51,10 +51,10 @@ exports.validateSession = catchAsync(async (req, res, next) => {
   next();
 });
 
-//exports.userAdmin = catchAsync(async (req, res, next) => {
-//  if (req.currentUser.role !== 'admin') {
-//    return next(new AppError(403, 'Access denied'));
-//  }
+exports.userAdmin = catchAsync(async (req, res, next) => {
+  if (req.currentUser.status !== 'active') {
+    return next(new AppError(403, 'Access denied'));
+  }
 
-//  next();
-//});
+  next();
+});

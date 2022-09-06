@@ -147,7 +147,6 @@ router.post('/', postAdminUser);
  */
 router.post('/login', loginAdminUser);
 
-router.use(validateSession);
 
 // get all adminUser
 /**
@@ -167,13 +166,16 @@ router.use(validateSession);
  *                  type: array
  *                  items:
  *                    $ref: '#/components/schemas/adminuser'
+ *      401:
+ *        description: Invalid session.
  */
 
+router.use(validateSession);
 router.get('/', getAllAdminUser);
 
 router.use('/:id', adminUserExist);
 router
-    .route('/:id')
+  .route('/:id')
 
 //Get adminUser by Id
 /**
@@ -201,13 +203,13 @@ router
  *                  items:
  *                    $ref: '#/components/schemas/adminuser'
  *      401:
- *        description: The token wasn't delivery, please add it.
+ *        description: The token wasn't delivery, please add it. Or. Invalid session.
  *      404:
  *        description: The delivered adminUser id was not found.
  */
 
 // router.get("/:id", getAdminUserById)
-.get(getAdminUserById)
+  .get(getAdminUserById)
 
 // patch adminUser by Id
 /**
@@ -237,7 +239,7 @@ router
  *      201:
  *        description: The selected adminUser id was modified
  *      401:
- *        description: The token wasn't delivery, please add it.
+ *        description: The token wasn't delivery, please add it. Or Invalid session.
  *      403:
  *        description: You can't update or delete other users accounts.
  *      404:
@@ -245,7 +247,7 @@ router
  */
 
 //router.patch("/:id", protectAccountOwner, patchAdminUserById)
-    .patch(protectAccountOwner, patchAdminUserById)
+  .patch(protectAccountOwner, patchAdminUserById)
 
 // delete adminUser by Id
 /**
@@ -267,13 +269,13 @@ router
  *      201:
  *        description: The selected adminUser id was deleted.
  *      401:
- *        description: The token wasn't delivery, please add it.
+ *        description: The token wasn't delivery, please add it. Or. Invalid session.
  *      403:
  *        description: You can't update or delete other users accounts.
  *      404:
  *        description: The delivered adminUser id was not found.
  */
 //  router.delete("/:id", protectAccountOwner, deleteAdminUserById);
-    .delete(protectAccountOwner, deleteAdminUserById);
+  .delete(protectAccountOwner, deleteAdminUserById);
 
 module.exports = { adminUsersRouter: router };

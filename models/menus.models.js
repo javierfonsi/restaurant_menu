@@ -20,6 +20,10 @@ const Menu = sequelize.define('menu', {
         type: DataTypes.STRING(10),
         allowNull: false
     },
+    img_Url:{
+        type: DataTypes.STRING(255),
+        allowNull: false
+    },
     status:{
         type: DataTypes.STRING(10),
         allowNull: false,
