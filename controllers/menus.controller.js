@@ -96,15 +96,23 @@ exports.createMenu = catchAsync(async (req, res, next) => {
    }
 
    // Upload img to Cloud Storage (Firebase)
+  console.log("Javier", req.file)
+  console.log("-------------------------------")
+  console.log("Jorge", req.body)
+  console.log("-------------------------------")
+  console.log("River", req)
+  
   const imgRef = ref(storage, `${Date.now()}-${req.file.originalname}`);
   const result = await uploadBytes(imgRef, req.file.buffer);
 
+  
    const menu = await Menu.create({
       name,
       description,
       price,
       img_Url: result.metadata.fullPath
    });
+   //console.log(menu)
    res.status(201).json({
       status: 'Success',
       data: { menu }

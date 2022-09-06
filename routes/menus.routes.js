@@ -78,7 +78,8 @@ const { upload } = require('../util/multer')
  */
 
 //router.use(validateSession);
-router.post('/', userAdmin, upload.single('img_Url') , createMenu)
+//router.post('/', userAdmin, upload.single('img_Url') , createMenu)
+router.post('/',  upload.single('img_Url') , createMenu)
 
 // get all menus
 /**
