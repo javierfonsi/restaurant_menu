@@ -95,3 +95,10 @@ module.exports = { app }
 //FIREBASE_STORAGE_BUCKET=example-a6b4e.appspot.com
 //FIREBASE_MESSAGING_SENDER_ID=408231399471
 //FIREBASE_APP_ID=1:408231399471:web:59b3fc781c8a5b097ff6da
+
+
+//Proyecto Jorge No Tocar branch main
+//DB_HOSTNAME=ec2-18-208-55-135.compute-1.amazonaws.com
+//DB_NAME=df00ps5ovi2jmr
+//DB_USERNAME=chgxtaivjlfsrk
+//DB_PASSWORD=0f2425c905c1cf83e4eea839652e283158b9404e27b75e19eb9bd636dab696eb
