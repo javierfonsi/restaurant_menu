@@ -132,39 +132,6 @@ router.get('/', getAllMenus)
 router.get('/:id', getMenuById)
 
 
-// put menu by Id
-/**
- * @swagger
- * /api/v1/menus/{id}:
- *  put:
- *    security:
- *      - bearerAuth: []
- *    summary: Allows update all menus properties
- *    tags: [menu]
- *    parameters:
- *      - in: path
- *        name: id
- *        schema:
- *          type: string
- *        required: true
- *        description: the menu id
- *    requestBody: 
- *      required: true
- *      content:
- *          application/json:
- *              schema:
- *                type: object
- *                $ref: '#/components/schemas/menu'
- *    responses:
- *      200:
- *        description: The selected menu was modified totaly
- *      400:
- *        description: Some properties and/or their values are incorrect.
- *      404:
- *        description: The delivered id was not found.
- */
-router.put('/:id', putMenuById)
-
 // patch menu by Id
 /**
  * @swagger
@@ -185,19 +152,19 @@ router.put('/:id', putMenuById)
  *      description: Update menu with selected properties
  *      required: true
  *      content:
- *          application/json:
+ *          multipart/form-data:
  *              schema:
- *                type: properties
+ *                type: object
  *                $ref: '#/components/schemas/menu'
  *    responses:
  *      204:
- *        description: The selected id was modified partially
+ *        description: The selected id was modified
  *      400:
  *        description: Some properties and/or their values are incorrect.
  *      404:
  *        description: The delivered id was not found.
  */
-router.patch('/:id', patchMenuById)
+router.patch('/:id', upload.single('img_Url'), patchMenuById)
 
 
 // delete menu by Id
