@@ -71,7 +71,7 @@ mercadopago.configure({
   });
 
 //routes
-app.post('/checkout', (req, res) => {
+app.post('/api/v1/checkout', (req, res) => {
 // Crea un objeto de preferencia
 let preference = {
     items: [
