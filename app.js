@@ -4,6 +4,12 @@ const swaggerJsDoc = require('swagger-jsdoc')
 const cors = require('cors');
 const path = require('path')
 
+const bodyParser = require('body-parser');
+
+// SDK de Mercado Pago
+const mercadopago = require ('mercadopago');
+
+
 //controller
 const { globalErrorHandler } = require('./controllers/error.controller')
 
@@ -55,7 +61,42 @@ express.urlencoded({ extended: true });
 //Enable cors
 app.use('*', cors());
 
+
+//enable bodyParser Jorge start here
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// Agrega credenciales
+mercadopago.configure({
+    access_token: 'APP_USR-35012339454778-091508-bd62a0a4030da7d9b01193138f772ede-1198841254'
+  });
+
+//routes
+app.post('/checkout', (req, res) => {
+// Crea un objeto de preferencia
+let preference = {
+    items: [
+      {
+        title:req.body.title,
+        unit_price: parseInt(req.body.price),
+        quantity: 1,
+      }
+    ]
+  };
+  
+  mercadopago.preferences.create(preference)
+  .then(function(response){
+  
+    res.redirect(response.body.init_point);
+   
+  }).catch(function(error){
+    console.log(error);
+  });
+});
+
+//end Jorge
+
 app.use('/api/v1/menus', menusRouter)
+//app.post('/api/v1/checkout', checkout)
 app.use('/api/v1/adminuser', adminUsersRouter)
 app.use('/api/v1/employed', employedUsersRouter)
 app.use('/api/v1/doc', swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)))
