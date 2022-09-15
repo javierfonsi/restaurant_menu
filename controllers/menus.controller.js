@@ -68,8 +68,8 @@ exports.getMenuById = catchAsync(async (req, res, next) => {
    if (!currentMenu) {
       return next(new AppError(404, 'The delivered id was not found'));
    }
-   const imgRef = ref(storage, img_Url);
-
+   const imgRef = ref(storage, currentMenu.img_Url);
+   
    currentMenu.img_Url = await getDownloadURL(imgRef);
 
    res.status(200).json({
