@@ -96,12 +96,6 @@ exports.createMenu = catchAsync(async (req, res, next) => {
    }
 
    // Upload img to Cloud Storage (Firebase)
-  console.log("Javier", req.file)
-  console.log("-------------------------------")
-  console.log("Jorge", req.body)
-  console.log("-------------------------------")
-  console.log("River", req)
-  
   const imgRef = ref(storage, `${Date.now()}-${req.file.originalname}`);
   const result = await uploadBytes(imgRef, req.file.buffer);
 
@@ -112,55 +106,29 @@ exports.createMenu = catchAsync(async (req, res, next) => {
       price,
       img_Url: result.metadata.fullPath
    });
-   //console.log(menu)
    res.status(201).json({
       status: 'Success',
       data: { menu }
    });
 });
 
-exports.putMenuById = catchAsync(async (req, res, next) => {
-   const { id } = req.params;
-   const { name, description, price } = req.body;
-   const menu = await Menu.findOne({ where: { id: id, status: 'active' } });
-   if (!menu) {
-      return next(new AppError(404, 'The delivered id was not found.'));
-   }
-   if (
-      !name ||
-      !description ||
-      !price ||
-      name.length === 0 ||
-      description.length === 0 ||
-      price.length === 0
-   ) {
-      return next(
-         new AppError(400, 'Some properties and/or their values are incorrect.')
-      );
-   }
-   await menu.update({
-      id: +id,
-      name,
-      description,
-      price
-   });
-   res.status(200).json({
-      status: 'Success',
-      data: 'menu'
-   });
-});
 
 exports.patchMenuById = catchAsync(async (req, res, next) => {
    const { id } = req.params;
+   //const {name, description, price} = req.body
    const menu = await Menu.findOne({ where: { id, status: 'active' } });
    if (!menu) {
       return next(new AppError(404, 'The delivered id was not found.'));
    }
-   //const { name, description, price } = req.body;
+   const { name, description, price } = req.body;
+   console.log(name, description, price)
+   //console.log("Javier", req.body)
+
    //if (
    //   !name ||
    //   !description ||
-   //   !price ||
+   //   !price 
+   //   ||
    //   name.length === 0 ||
    //   description.length === 0 ||
    //   price.length === 0
@@ -171,7 +139,21 @@ exports.patchMenuById = catchAsync(async (req, res, next) => {
    //}
    const data = filterObject(req.body, 'name', 'description', 'price');
    //await menu.update({...menu, ...req.body})
-   await menu.update({ ...menu, ...data });
+   //await menu.update({ ...menu, ...data });
+   await menu.update({ ...data });
+
+   // Upload img to Cloud Storage (Firebase)
+  const imgRef = ref(storage, `${Date.now()}-${req.file.originalname}`);
+  const result = await uploadBytes(imgRef, req.file.buffer);
+
+  
+   await menu.update({
+      name,
+      description,
+      price,
+      img_Url: result.metadata.fullPath
+   });
+
    res.status(200).json({
       status: 'Success',
       data: { menu }
@@ -185,8 +167,9 @@ exports.deleteMenuById = catchAsync(async (req, res, next) => {
       return next(new AppError(404, 'The delivered Id was not found.'));
    }
    await menu.update({ status: 'deleted' });
-   res.status(204).json({
-      status: 'Success'
+   res.status(201).json({
+      status: 'Success',
+      message: `The Id ${menu.id} was delete correctly`
    });
 });
 
